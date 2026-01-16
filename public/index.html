@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptSpace</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading" style="display: none;">
+    <div class="loading-box">
+      <div class="loading-text">Loading<span class="loading-dots"></span></div>
+    </div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <a href="/" class="logo">prompt<span>space</span></a>
+    <div class="top-links">
+      <a href="#">Help</a> | <a href="#">LogOut</a>
+    </div>
+  </div>
+
+  <!-- Nav Bar -->
+  <div class="nav-bar">
+    <a href="/">Home</a> |
+    <a href="#" id="nav-random">Random<span class="nav-new">NEW</span></a> |
+    <a href="#">Submit</a> |
+    <a href="#">Favorites</a> |
+    <a href="#">Collections</a> |
+    <a href="#">About</a>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="profile-layout">
+
+      <!-- Left Column -->
+      <div class="left-column">
+        <div class="profile-name" id="profile-name">Loading...</div>
+        <span class="edit-link">[edit prompt]</span>
+
+        <div class="profile-photo" id="profile-photo">
+          <!-- Colored square will be rendered here -->
+        </div>
+
+        <div class="profile-quote" id="profile-quote">"Loading"</div>
+
+        <div class="profile-details" id="profile-details">
+          Prompt Type: ...<br>
+          Difficulty: ...<br>
+          Created: ...
+        </div>
+
+        <div class="online-status">
+          <div class="online-icon"></div>
+          ONLINE!
+        </div>
+
+        <div class="mood-line"><strong>Mood:</strong> <span id="mood">Loading</span> [edit]</div>
+
+        <div class="view-my"><strong>View my:</strong> <a href="#">Examples</a> | <a href="#">Variations</a> | <a href="#">Remixes</a></div>
+
+        <!-- Now Playing -->
+        <div class="now-playing-box">
+          <div class="now-playing-header">♫ Now Playing</div>
+          <div class="now-playing-content" id="now-playing">Loading...</div>
+        </div>
+
+        <!-- Contacting Box -->
+        <div class="contacting-box">
+          <div class="contacting-header" id="contacting-header">Contacting ...</div>
+          <div class="contacting-grid">
+            <div class="contact-item"><div class="contact-icon icon-green">+</div> Add to Favorites</div>
+            <div class="contact-item"><div class="contact-icon icon-yellow">★</div> Add to Collection</div>
+            <div class="contact-item" id="share-btn"><div class="contact-icon icon-gray">✉</div> Share Prompt</div>
+            <div class="contact-item"><div class="contact-icon icon-purple">→</div> Fork Prompt</div>
+            <div class="contact-item"><div class="contact-icon icon-gray">✎</div> Suggest Edit</div>
+            <div class="contact-item"><div class="contact-icon icon-red">✕</div> Report Prompt</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+
+        <!-- Stumble Box -->
+        <div class="stumble-box">
+          <button class="stumble-btn" id="stumble-btn">⟳ Stumble to Random Prompt</button>
+        </div>
+
+        <!-- The Prompt -->
+        <div class="prompt-section">
+          <div class="prompt-header">The Prompt</div>
+          <div class="prompt-content">
+            <button class="copy-btn" id="copy-btn">Copy</button>
+            <span id="the-prompt">Loading...</span>
+          </div>
+        </div>
+
+        <!-- Blurbs Section -->
+        <div class="blurbs-section">
+          <div class="blurbs-header" id="blurbs-header">...'s Blurbs</div>
+          <div class="blurbs-content">
+            <div class="blurb-title">About me:</div>
+            <div class="blurb-text" id="about-me">Loading...</div>
+            <span class="blurb-edit">[edit]</span>
+
+            <div class="blurb-title" style="margin-top: 15px;">Who I'd like to meet:</div>
+            <div class="blurb-text" id="who-id-like-to-meet">Loading...</div>
+            <span class="blurb-edit">[edit]</span>
+          </div>
+        </div>
+
+        <!-- If This Were A... -->
+        <div class="metaphor-section">
+          <div class="metaphor-header">If This Prompt Were A...</div>
+          <div class="metaphor-grid" id="metaphor-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Friend Space (Top 8) -->
+        <div class="friend-space">
+          <div class="friend-header">
+            <span id="friend-header-name">...'s Prompt Friends</span>
+            <a href="#">[view all]</a>
+          </div>
+          <div class="friend-grid" id="friend-grid">
+            <!-- Friend items will be rendered here -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      PromptSpace © 2009 | <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

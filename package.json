@@ -1,0 +1,17 @@
+{
+  "name": "promptspace",
+  "version": "1.0.0",
+  "description": "StumbleUpon for AI prompts, styled like 2007 MySpace",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "sql.js": "^1.10.0",
+    "uuid": "^9.0.0"
+  }
+}
