@@ -114,6 +114,16 @@ function renderPrompt(prompt) {
   friendGrid.innerHTML = '';
 
   const top8 = prompt.top_8 || [];
+
+  // Prefetch Top 8 in background so clicks are instant
+  if (top8.length > 0) {
+    fetch('/api/prefetch/top8', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ friends: top8 })
+    }).catch(() => {}); // Fire and forget
+  }
+
   top8.forEach((friend, i) => {
     const friendEl = document.createElement('div');
     friendEl.className = 'friend-item';

@@ -71,6 +71,36 @@ app.post('/api/prompt/resolve', async (req, res) => {
   }
 });
 
+// Pre-generate Top 8 friends in background (fire-and-forget)
+app.post('/api/prefetch/top8', async (req, res) => {
+  // Immediately respond so client doesn't wait
+  res.json({ status: 'prefetching' });
+
+  const { friends } = req.body;
+  if (!friends || !Array.isArray(friends)) return;
+
+  // Generate each friend in background (don't await all at once to avoid rate limits)
+  for (const friend of friends) {
+    try {
+      // Skip if already exists
+      const existing = db.getByName(friend.name);
+      if (existing) continue;
+
+      // Generate new prompt
+      const promptTemplate = prompts.TOP8_RESOLVE_PROMPT
+        .replace('{{NAME}}', friend.name)
+        .replace('{{VIBE}}', friend.vibe || '');
+
+      const generated = await claude.generate('', promptTemplate);
+      const validated = validatePrompt(generated, 'top8', null);
+      db.insertPrompt(validated);
+      console.log(`✓ Pre-generated: ${friend.name}`);
+    } catch (error) {
+      console.error(`Failed to pre-generate ${friend.name}:`, error.message);
+    }
+  }
+});
+
 // Generate from metaphor
 app.post('/api/generate/metaphor', async (req, res) => {
   try {
