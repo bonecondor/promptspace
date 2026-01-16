@@ -4,9 +4,24 @@ require('dotenv').config({ path: path.join(__dirname, '..', '.env'), override: t
 const db = require('../lib/db');
 const claude = require('../lib/claude');
 const prompts = require('../lib/prompts');
+const { getRandomTopic } = require('../lib/topics');
 const { validatePrompt } = require('../lib/validate');
 
-const TARGET_COUNT = 25;
+const TARGET_COUNT = 30;
+const BATCH_SIZE = 5; // Run 5 in parallel (10 was overloading the API)
+
+async function generateOne(i, total) {
+  const topic = getRandomTopic();
+  console.log(`[${i}/${total}] "${topic}"`);
+
+  const promptWithTopic = prompts.NEW_PROFILE_PROMPT.replace('{{TOPIC}}', topic);
+  const generated = await claude.generate('', promptWithTopic);
+  const validated = validatePrompt(generated, 'seed', null);
+  const slug = db.insertPrompt(validated);
+
+  console.log(`  ✓ ${validated.prompt_name}`);
+  return slug;
+}
 
 async function seed() {
   console.log('Initializing database...');
@@ -21,29 +36,27 @@ async function seed() {
     return;
   }
 
-  console.log(`Generating ${toGenerate} new prompts...`);
+  console.log(`Generating ${toGenerate} new prompts in batches of ${BATCH_SIZE}...\n`);
 
-  for (let i = 0; i < toGenerate; i++) {
-    try {
-      console.log(`Generating prompt ${i + 1}/${toGenerate}...`);
+  let generated = 0;
+  while (generated < toGenerate) {
+    const batchSize = Math.min(BATCH_SIZE, toGenerate - generated);
+    const batch = [];
 
-      // Generate random seed to force variety
-      const seed = Math.random().toString(36).substring(2, 10) + '-' + Date.now();
-      const promptWithSeed = prompts.NEW_PROFILE_PROMPT.replace('{{SEED}}', seed);
-      const generated = await claude.generate('', promptWithSeed);
-      const validated = validatePrompt(generated, 'seed', null);
-      const slug = db.insertPrompt(validated);
-
-      console.log(`  Created: ${validated.prompt_name} (${slug})`);
-
-      // Small delay between generations to be nice to the API
-      if (i < toGenerate - 1) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-      }
-    } catch (error) {
-      console.error(`  Failed to generate prompt ${i + 1}:`, error.message);
-      // Continue with next prompt
+    for (let i = 0; i < batchSize; i++) {
+      batch.push(generateOne(generated + i + 1, toGenerate));
     }
+
+    const results = await Promise.allSettled(batch);
+    const succeeded = results.filter(r => r.status === 'fulfilled').length;
+    const failed = results.filter(r => r.status === 'rejected').length;
+
+    if (failed > 0) {
+      console.log(`  (${failed} failed in this batch)`);
+    }
+
+    generated += batchSize;
+    console.log(`--- Batch complete: ${db.getCount()} total prompts ---\n`);
   }
 
   console.log(`\nDone! Database now has ${db.getCount()} prompts.`);

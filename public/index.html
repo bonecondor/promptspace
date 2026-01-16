@@ -18,18 +18,19 @@
   <div class="top-bar">
     <a href="/" class="logo">prompt<span>space</span></a>
     <div class="top-links">
-      <a href="#">Help</a> | <a href="#">LogOut</a>
+      <a href="#" class="coming-soon">Help</a> | <a href="#" class="coming-soon">Logout</a>
     </div>
   </div>
 
   <!-- Nav Bar -->
   <div class="nav-bar">
     <a href="/">Home</a> |
+    <a href="#" class="coming-soon">All Prompts</a> |
     <a href="#" id="nav-random">Random<span class="nav-new">NEW</span></a> |
-    <a href="#">Submit</a> |
-    <a href="#">Favorites</a> |
-    <a href="#">Collections</a> |
-    <a href="#">About</a>
+    <a href="#" class="coming-soon">Submit</a> |
+    <a href="#" class="coming-soon">Favorites</a> |
+    <a href="#" class="coming-soon">Collections</a> |
+    <a href="#" class="coming-soon">About</a>
   </div>
 
   <!-- Main Container -->
@@ -39,63 +40,81 @@
       <!-- Left Column -->
       <div class="left-column">
         <div class="profile-name" id="profile-name">Loading...</div>
-        <span class="edit-link">[edit prompt]</span>
+        <span class="edit-link coming-soon">[edit prompt]</span>
 
-        <div class="profile-photo" id="profile-photo">
-          <!-- Colored square will be rendered here -->
+        <!-- Profile header: photo left, info right (like MySpace) -->
+        <div class="profile-header">
+          <div class="profile-photo" id="profile-photo">
+            <!-- Colored square will be rendered here -->
+          </div>
+          <div class="profile-info">
+            <div class="profile-quote" id="profile-quote">"Loading"</div>
+            <div class="profile-details" id="profile-details">
+              <strong>Prompt Type:</strong> seed<br>
+              <strong>Font Vibe:</strong> ...<br>
+              <strong>Background:</strong> ...
+            </div>
+            <div class="online-status">
+              <div class="online-icon"></div>
+              ONLINE!
+            </div>
+          </div>
         </div>
 
-        <div class="profile-quote" id="profile-quote">"Loading"</div>
+        <div class="mood-line"><strong>Mood:</strong> <span id="mood">vibing</span> <span class="coming-soon">[edit]</span></div>
 
-        <div class="profile-details" id="profile-details">
-          Prompt Type: ...<br>
-          Difficulty: ...<br>
-          Created: ...
-        </div>
+        <div class="view-my"><strong>View My:</strong> <a href="#" class="coming-soon">Pics</a> | <a href="#" class="coming-soon">Videos</a></div>
 
-        <div class="online-status">
-          <div class="online-icon"></div>
-          ONLINE!
-        </div>
-
-        <div class="mood-line"><strong>Mood:</strong> <span id="mood">Loading</span> [edit]</div>
-
-        <div class="view-my"><strong>View my:</strong> <a href="#">Examples</a> | <a href="#">Variations</a> | <a href="#">Remixes</a></div>
-
-        <!-- Now Playing -->
-        <div class="now-playing-box">
-          <div class="now-playing-header">♫ Now Playing</div>
-          <div class="now-playing-content" id="now-playing">Loading...</div>
-        </div>
-
-        <!-- Contacting Box -->
+        <!-- Contacting Box - 2 column like MySpace, but PromptSpace actions -->
         <div class="contacting-box">
           <div class="contacting-header" id="contacting-header">Contacting ...</div>
           <div class="contacting-grid">
-            <div class="contact-item"><div class="contact-icon icon-green">+</div> Add to Favorites</div>
-            <div class="contact-item"><div class="contact-icon icon-yellow">★</div> Add to Collection</div>
-            <div class="contact-item" id="share-btn"><div class="contact-icon icon-gray">✉</div> Share Prompt</div>
-            <div class="contact-item"><div class="contact-icon icon-purple">→</div> Fork Prompt</div>
-            <div class="contact-item"><div class="contact-icon icon-gray">✎</div> Suggest Edit</div>
-            <div class="contact-item"><div class="contact-icon icon-red">✕</div> Report Prompt</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%230066cc' stroke='%230066cc' stroke-width='1'%3E%3Cpath d='M12 3v18M3 12h18'/%3E%3C/svg%3E" class="contact-icon"> Fork Prompt</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23cc6600' stroke='%23cc6600' stroke-width='1'%3E%3Cpath d='M16 3h5v5M4 20L21 3M21 16v5h-5'/%3E%3C/svg%3E" class="contact-icon"> Remix Prompt</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23ffcc00' stroke='%23cc9900' stroke-width='1'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E" class="contact-icon"> Add to Favorites</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23669933' stroke='%23669933' stroke-width='1'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M3 9h18M9 21V9' stroke='white'/%3E%3C/svg%3E" class="contact-icon"> Add to Collection</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%239933cc' stroke='%239933cc' stroke-width='1'%3E%3Cpath d='M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13'/%3E%3C/svg%3E" class="contact-icon"> Share Prompt</div>
+            <div class="contact-item coming-soon"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23cc3333' stroke='%23cc3333' stroke-width='1'%3E%3Cpath d='M12 9v4M12 17h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z'/%3E%3C/svg%3E" class="contact-icon"> Report Prompt</div>
           </div>
+        </div>
+
+        <!-- Now Playing - styled like MySpace player -->
+        <div class="now-playing-box">
+          <div class="now-playing-content">
+            <span class="play-btn">▶</span>
+            <div class="song-info">
+              <div class="song-title" id="song-title">Loading...</div>
+              <div class="song-artist" id="song-artist"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- If This Were A... (Interests-style table) -->
+        <div class="interests-section">
+          <div class="interests-header">If This Prompt Were A...</div>
+          <table class="interests-table" id="interests-table">
+            <!-- Dynamically populated -->
+          </table>
         </div>
       </div>
 
       <!-- Right Column -->
       <div class="right-column">
 
-        <!-- Stumble Box -->
-        <div class="stumble-box">
+        <!-- Network Banner + Stumble combined -->
+        <div class="network-banner">
+          <div class="network-text">This prompt is in your extended network</div>
           <button class="stumble-btn" id="stumble-btn">⟳ Stumble to Random Prompt</button>
         </div>
 
-        <!-- The Prompt -->
+        <!-- The Prompt - styled like blog entry -->
         <div class="prompt-section">
-          <div class="prompt-header">The Prompt</div>
+          <div class="prompt-header">The Prompt <a href="#" id="copy-btn">[Copy to Clipboard]</a></div>
           <div class="prompt-content">
-            <button class="copy-btn" id="copy-btn">Copy</button>
             <span id="the-prompt">Loading...</span>
+          </div>
+          <div class="prompt-footer">
+            <a href="#" id="stumble-link">[Stumble to New Prompt]</a>
           </div>
         </div>
 
@@ -105,28 +124,21 @@
           <div class="blurbs-content">
             <div class="blurb-title">About me:</div>
             <div class="blurb-text" id="about-me">Loading...</div>
-            <span class="blurb-edit">[edit]</span>
+            <a href="#" class="blurb-edit coming-soon">edit</a>
 
             <div class="blurb-title" style="margin-top: 15px;">Who I'd like to meet:</div>
             <div class="blurb-text" id="who-id-like-to-meet">Loading...</div>
-            <span class="blurb-edit">[edit]</span>
-          </div>
-        </div>
-
-        <!-- If This Were A... -->
-        <div class="metaphor-section">
-          <div class="metaphor-header">If This Prompt Were A...</div>
-          <div class="metaphor-grid" id="metaphor-grid">
-            <!-- Dynamically populated -->
+            <a href="#" class="blurb-edit coming-soon">edit</a>
           </div>
         </div>
 
         <!-- Friend Space (Top 8) -->
         <div class="friend-space">
           <div class="friend-header">
-            <span id="friend-header-name">...'s Prompt Friends</span>
-            <a href="#">[view all]</a>
+            <span><span id="friend-header-name">...'s Friend Space</span> (Top 8)</span>
+            <a href="#" class="coming-soon">[view all]</a>
           </div>
+          <div class="friend-count" id="friend-count">... has <strong>8</strong> friends.</div>
           <div class="friend-grid" id="friend-grid">
             <!-- Friend items will be rendered here -->
           </div>
@@ -137,7 +149,7 @@
 
     <!-- Footer -->
     <div class="footer">
-      PromptSpace © 2009 | <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Contact</a>
+      PromptSpace © 2007 | <a href="#" class="coming-soon">Terms</a> | <a href="#" class="coming-soon">Privacy</a> | <a href="#" class="coming-soon">Contact</a>
     </div>
   </div>
 
