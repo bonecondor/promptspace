@@ -25,6 +25,11 @@ function renderPrompt(prompt) {
   // Update URL without reload
   if (prompt.slug) {
     history.pushState({ slug: prompt.slug }, '', `/prompt/${prompt.slug}`);
+    // Update URL input field
+    const urlInput = document.getElementById('prompt-url');
+    if (urlInput) {
+      urlInput.value = `/prompt/${prompt.slug}`;
+    }
   }
 
   // Update title
@@ -43,12 +48,17 @@ function renderPrompt(prompt) {
   // Quote based on font vibe
   document.getElementById('profile-quote').textContent = `"${prompt.aesthetic?.font_vibe || 'vibing'}"`;
 
-  // Details
-  document.getElementById('profile-details').innerHTML = `
-    Prompt Type: ${prompt.source || 'Unknown'}<br>
-    Font Vibe: ${prompt.aesthetic?.font_vibe || 'n/a'}<br>
-    Background: ${prompt.aesthetic?.background || 'n/a'}
-  `;
+  // Log metadata for v2 layout work
+  console.log('🎨 Layout metadata:', {
+    source: prompt.source,
+    font_vibe: prompt.aesthetic?.font_vibe,
+    background: prompt.aesthetic?.background,
+    asl: prompt.aesthetic?.asl
+  });
+
+  // Show ASL in profile details
+  const asl = prompt.aesthetic?.asl || '??/??/somewhere';
+  document.getElementById('profile-details').innerHTML = asl;
 
   // Mood - extract from about_me
   const moods = ['chaotic', 'unhinged', 'chill', 'anxious', 'determined', 'confused', 'hopeful'];
@@ -61,33 +71,45 @@ function renderPrompt(prompt) {
   document.getElementById('blurbs-header').textContent = `${prompt.prompt_name}'s Blurbs`;
   document.getElementById('about-me').textContent = prompt.about_me || '';
   document.getElementById('who-id-like-to-meet').textContent = prompt.who_id_like_to_meet || '';
-  document.getElementById('now-playing').textContent = prompt.aesthetic?.now_playing || 'Nothing playing';
 
-  // Metaphors - dynamically render whatever categories came back
-  const metaphorGrid = document.getElementById('metaphor-grid');
-  metaphorGrid.innerHTML = '';
+  // Music player - split into artist and song title (format: "Artist - Title")
+  const nowPlaying = prompt.aesthetic?.now_playing || 'Nothing playing';
+  const songParts = nowPlaying.split(' - ');
+  if (songParts.length >= 2) {
+    document.getElementById('song-title').textContent = songParts[1];  // Title second
+    document.getElementById('song-artist').textContent = songParts[0]; // Artist first
+  } else {
+    document.getElementById('song-title').textContent = nowPlaying;
+    document.getElementById('song-artist').textContent = '';
+  }
+
+  // Interests table (If This Were A...) - in left column like MySpace
+  const interestsTable = document.getElementById('interests-table');
+  interestsTable.innerHTML = '';
 
   const metaphors = prompt.if_this_were_a || {};
   Object.entries(metaphors).forEach(([key, value]) => {
-    const item = document.createElement('div');
-    item.className = 'metaphor-item';
-    item.dataset.type = key;
-    item.dataset.value = value;
+    const row = document.createElement('tr');
+    row.style.cursor = 'pointer';
+    row.dataset.type = key;
+    row.dataset.value = value;
 
-    // Convert key like "dog_breed" to "Dog Breed"
+    // Convert key like "video_game" to "Video Game"
     const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
-    item.innerHTML = `
-      <div class="metaphor-label">${escapeHtml(label)}</div>
-      <div class="metaphor-value">${escapeHtml(value)}</div>
+    row.innerHTML = `
+      <td>${escapeHtml(label)}</td>
+      <td>${escapeHtml(value)}</td>
     `;
 
-    item.addEventListener('click', () => handleMetaphorClick(key, value));
-    metaphorGrid.appendChild(item);
+    row.addEventListener('click', () => handleMetaphorClick(key, value));
+    interestsTable.appendChild(row);
   });
 
-  // Top 8 friends
-  document.getElementById('friend-header-name').textContent = `${prompt.prompt_name}'s Prompt Friends`;
+  // Top 8 friends - show random high friend count
+  const fakeFriendCount = Math.floor(Math.random() * 800) + 47; // Random between 47-846
+  document.getElementById('friend-header-name').textContent = `${prompt.prompt_name}'s Friend Space`;
+  document.getElementById('friend-count').innerHTML = `${prompt.prompt_name} has <strong>${fakeFriendCount}</strong> friends.`;
   const friendGrid = document.getElementById('friend-grid');
   friendGrid.innerHTML = '';
 
@@ -102,8 +124,8 @@ function renderPrompt(prompt) {
     const friendColor = prompt.aesthetic?.colors?.[i % 3] || '#999';
 
     friendEl.innerHTML = `
-      <div class="friend-photo" style="background: ${friendColor};"></div>
       <div class="friend-name">${escapeHtml(friend.name)}</div>
+      <div class="friend-photo" style="background: ${friendColor};"></div>
     `;
 
     friendEl.addEventListener('click', () => handleFriendClick(friend));
@@ -200,11 +222,12 @@ async function handleMetaphorClick(type, value) {
   }
 }
 
-function handleCopy() {
+function handleCopy(e) {
+  if (e) e.preventDefault();
   const promptText = document.getElementById('the-prompt').textContent;
   navigator.clipboard.writeText(promptText).then(() => {
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+    copyBtn.textContent = '[Copied!]';
+    setTimeout(() => copyBtn.textContent = '[Copy to Clipboard]', 2000);
   });
 }
 
@@ -253,8 +276,15 @@ navRandom.addEventListener('click', (e) => {
   e.preventDefault();
   handleStumble();
 });
+document.getElementById('stumble-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  handleStumble();
+});
 copyBtn.addEventListener('click', handleCopy);
-shareBtn.addEventListener('click', handleShare);
+// shareBtn might not exist anymore
+if (document.getElementById('share-btn')) {
+  document.getElementById('share-btn').addEventListener('click', handleShare);
+}
 
 // Handle browser back/forward
 window.addEventListener('popstate', async (e) => {
