@@ -11,6 +11,10 @@ primary_region = 'ewr'
   min_machines_running = 0
   processes = ['app']
 
+[mounts]
+  source = 'promptspace_data'
+  destination = '/data'
+
 [env]
   NODE_ENV = 'production'
 

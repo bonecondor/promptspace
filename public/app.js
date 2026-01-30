@@ -58,7 +58,7 @@ function renderPrompt(prompt) {
 
   // Show ASL in profile details
   const asl = prompt.aesthetic?.asl || '??/??/somewhere';
-  document.getElementById('profile-details').innerHTML = asl;
+  document.getElementById('profile-details').textContent = asl;
 
   // Mood - extract from about_me
   const moods = ['chaotic', 'unhinged', 'chill', 'anxious', 'determined', 'confused', 'hopeful'];
@@ -109,7 +109,13 @@ function renderPrompt(prompt) {
   // Top 8 friends - show random high friend count
   const fakeFriendCount = Math.floor(Math.random() * 800) + 47; // Random between 47-846
   document.getElementById('friend-header-name').textContent = `${prompt.prompt_name}'s Friend Space`;
-  document.getElementById('friend-count').innerHTML = `${prompt.prompt_name} has <strong>${fakeFriendCount}</strong> friends.`;
+  const friendCountEl = document.getElementById('friend-count');
+  friendCountEl.textContent = '';
+  friendCountEl.appendChild(document.createTextNode(prompt.prompt_name + ' has '));
+  const strong = document.createElement('strong');
+  strong.textContent = fakeFriendCount;
+  friendCountEl.appendChild(strong);
+  friendCountEl.appendChild(document.createTextNode(' friends.'));
   const friendGrid = document.getElementById('friend-grid');
   friendGrid.innerHTML = '';
 
